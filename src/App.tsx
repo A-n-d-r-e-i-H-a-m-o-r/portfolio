@@ -1,45 +1,193 @@
-// App.js
-import "./App.css";
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { 
+  Github, 
+  Linkedin, 
+  Mail, 
+  ExternalLink, 
+  Code2, 
+  Menu,
+  X
+} from 'lucide-react';
+import './App.css';
 
-const App = () => {
+// --- Types ---
+interface Project {
+  id: number;
+  title: string;
+  description: string;
+  tags: string[];
+  links: {
+    demo: string;
+    code: string;
+  };
+}
+
+// --- Data ---
+const portfolioData = {
+  name: "Andrei Hamor",
+  role: "Full Stack Developer",
+  bio: "I build accessible, pixel-perfect, performant, and engaging digital experiences for the web.",
+  projects: [
+    {
+      id: 1,
+      title: "Neon E-Commerce",
+      description: "A comprehensive analytics dashboard for online retailers with real-time data visualization.",
+      tags: ["React", "TypeScript", "Redux"],
+      links: { demo: "#", code: "#" }
+    },
+    {
+      id: 2,
+      title: "AI Task Manager",
+      description: "Smart task prioritization tool using OpenAI API to sort your daily workflow automatically.",
+      tags: ["Next.js", "Node.js", "Prisma"],
+      links: { demo: "#", code: "#" }
+    },
+    {
+      id: 3,
+      title: "Crypto Tracker",
+      description: "Real-time cryptocurrency tracking application with historical charts and alerts.",
+      tags: ["Vue", "D3.js", "Firebase"],
+      links: { demo: "#", code: "#" }
+    }
+  ] as Project[]
+};
+
+// --- Animations ---
+const fadeInUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2
+    }
+  }
+};
+
+const App: React.FC = () => {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  // Handle scroll effect for navbar
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <div className="app">
-      <header className="header">
-        <h1>Andrei Hamor</h1>
-        <p>Game Developer | React Enthusiast</p>
+      {/* Navbar */}
+      <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
+        <div className="nav-container">
+          <div className="logo">AH.</div>
+          
+          <div className="desktop-menu">
+            <a href="#about">About</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+          </div>
+
+          <button className="mobile-toggle" onClick={() => setMenuOpen(!menuOpen)}>
+            {menuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+        
+        {/* Mobile Menu */}
+        {menuOpen && (
+          <div className="mobile-menu">
+            <a href="#about" onClick={() => setMenuOpen(false)}>About</a>
+            <a href="#projects" onClick={() => setMenuOpen(false)}>Projects</a>
+            <a href="#contact" onClick={() => setMenuOpen(false)}>Contact</a>
+          </div>
+        )}
+      </nav>
+
+      {/* Hero Section */}
+      <header id="about" className="hero">
+        <motion.div 
+          className="hero-content"
+          initial="hidden"
+          animate="visible"
+          variants={fadeInUp}
+        >
+          <span className="greeting">Hi, my name is</span>
+          <h1 className="name">{portfolioData.name}</h1>
+          <h2 className="role">{portfolioData.role}</h2>
+          <p className="bio">{portfolioData.bio}</p>
+          <div className="hero-buttons">
+            <a href="#projects" className="btn btn-primary">Check out my work</a>
+            <a href="#contact" className="btn btn-outline">Contact Me</a>
+          </div>
+        </motion.div>
       </header>
 
-      <section className="section">
-        <h2>About Me</h2>
-        <p>
-          I am a passionate developer who enjoys building clean and simple web
-          applications using React. I love learning new technologies and
-          improving my skills.
-        </p>
-      </section>
-
-      <section className="section">
-        <h2>Projects</h2>
-        <div className="projects">
-          <div className="card">
-            <h3>Project One</h3>
-            <p>A simple React project showcasing UI and logic.</p>
+      {/* Projects Section */}
+      <section id="projects" className="projects-section">
+        <motion.div
+          className="container"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={staggerContainer}
+        >
+          <motion.h3 variants={fadeInUp} className="section-title">
+            Some Things I've Built
+          </motion.h3>
+          
+          <div className="projects-grid">
+            {portfolioData.projects.map((project) => (
+              <motion.div key={project.id} variants={fadeInUp} className="project-card">
+                <div className="card-top">
+                  <Code2 size={40} className="folder-icon" />
+                  <div className="card-links">
+                    <a href={project.links.code} aria-label="GitHub Link"><Github size={20} /></a>
+                    <a href={project.links.demo} aria-label="External Link"><ExternalLink size={20} /></a>
+                  </div>
+                </div>
+                <h4 className="project-title">{project.title}</h4>
+                <p className="project-desc">{project.description}</p>
+                <ul className="project-tags">
+                  {project.tags.map(tag => <li key={tag}>{tag}</li>)}
+                </ul>
+              </motion.div>
+            ))}
           </div>
-          <div className="card">
-            <h3>Project Two</h3>
-            <p>A small web app built to practice React fundamentals.</p>
-          </div>
-        </div>
+        </motion.div>
       </section>
 
-      <section className="section">
-        <h2>Contact</h2>
-        <p>Email: your.email@example.com</p>
-        <p>GitHub: github.com/yourusername</p>
+      {/* Contact Section */}
+      <section id="contact" className="contact-section">
+        <motion.div 
+          className="contact-container"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeInUp}
+        >
+          <h3 className="section-title">Get In Touch</h3>
+          <p>
+            I’m currently looking for new opportunities. Whether you have a question 
+            or just want to say hi, my inbox is always open!
+          </p>
+          <a href="mailto:hello@andreihamor.com" className="btn btn-primary btn-large">
+            <Mail className="btn-icon" /> Say Hello
+          </a>
+        </motion.div>
       </section>
 
+      {/* Footer */}
       <footer className="footer">
-        <p>© 2026 Andrei Hamor</p>
+        <div className="social-links">
+          <a href="#"><Github /></a>
+          <a href="#"><Linkedin /></a>
+        </div>
+        <p>Designed & Built by {portfolioData.name}</p>
       </footer>
     </div>
   );
