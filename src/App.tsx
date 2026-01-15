@@ -26,30 +26,17 @@ interface Project {
 // --- Data ---
 const portfolioData = {
   name: "Andrei Hamor",
-  role: "Full Stack Developer",
-  bio: "I build accessible, pixel-perfect, performant, and engaging digital experiences for the web.",
+  role: "Aspiring Game Developer",
+  bio: "Track your vitals and wellness easily using Raspberry pi",
   projects: [
     {
       id: 1,
-      title: "Neon E-Commerce",
+      title: "Health Monitoring App",
       description: "A comprehensive analytics dashboard for online retailers with real-time data visualization.",
-      tags: ["React", "TypeScript", "Redux"],
+      tags: ["Python", "Hardware"],
       links: { demo: "#", code: "#" }
     },
-    {
-      id: 2,
-      title: "AI Task Manager",
-      description: "Smart task prioritization tool using OpenAI API to sort your daily workflow automatically.",
-      tags: ["Next.js", "Node.js", "Prisma"],
-      links: { demo: "#", code: "#" }
-    },
-    {
-      id: 3,
-      title: "Crypto Tracker",
-      description: "Real-time cryptocurrency tracking application with historical charts and alerts.",
-      tags: ["Vue", "D3.js", "Firebase"],
-      links: { demo: "#", code: "#" }
-    }
+  
   ] as Project[]
 };
 
@@ -184,7 +171,7 @@ const App: React.FC = () => {
       {/* Footer */}
       <footer className="footer">
         <div className="social-links">
-          <a href="#"><Github /></a>
+          <a href="https://github.com/A-n-d-r-e-i-H-a-m-o-r"><Github /></a>
           <a href="#"><Linkedin /></a>
         </div>
         <p>Designed & Built by {portfolioData.name}</p>
