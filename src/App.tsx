@@ -6,7 +6,7 @@ const App = () => {
     <div className="app">
       <header className="header">
         <h1>Andrei Hamor</h1>
-        <p>Frontend Developer | React Enthusiast</p>
+        <p>Game Developer | React Enthusiast</p>
       </header>
 
       <section className="section">
