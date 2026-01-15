@@ -27,15 +27,29 @@ interface Project {
 const portfolioData = {
   name: "Andrei Hamor",
   role: "Aspiring Game Developer",
-  bio: "Track your vitals and wellness easily using Raspberry pi",
+  bio: "idk i like to do things",
   projects: [
     {
       id: 1,
       title: "Health Monitoring App",
-      description: "A comprehensive analytics dashboard for online retailers with real-time data visualization.",
+      description: "Track your vitals and wellness easily using Raspberry pi",
       tags: ["Python", "Hardware"],
       links: { demo: "#", code: "#" }
     },
+    {
+      id: 2,
+      title: "Future Android App",
+      description: "Description for future android app",
+      tags: ["Android", "Kotlin"],
+      links: { demo: "#", code: "#" }
+    },
+    {
+      id: 3,
+      title: "Future Game",
+      description: "Description for future game",
+      tags: ["C#", "Game Development"],
+      links: { demo: "#", code: "#" }
+    }
   
   ] as Project[]
 };
